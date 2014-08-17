@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+html5 游戏 保利城--勇攀高峰
+author:维明 
+qq:1274263
+-->
+<html>
+    <head>
+        <title>保利城--勇攀高峰</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+        <script type="text/javascript" src="js/lufylegend-1.9.0.min.js"></script>
+        <script type="text/javascript" src="js/lufylegend.ui-0.9.0.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script> 
+        <script type="text/javascript" src="js/Background.js"></script> 
+        <script type="text/javascript" src="js/Floor.js"></script> 
+        <script type="text/javascript" src="js/Chara.js"></script> 
+        <script type="text/javascript" src="js/Ball.js"></script> 
+        <script type="text/javascript" src="js/Gift.js"></script> 
+        <script>
+            function doScroll() {
+                if (window.pageYOffset === 0) {
+                    window.scrollTo(0, 1);
+                }
+            }
+            window.onload = function() {
+                setTimeout(doScroll, 100);
+                init(10, "mylegend", 320, 480, main, LEvent.INIT);
+
+            }
+            // iPhone屏幕旋转
+            window.onorientationchange = function() {
+                setTimeout(doScroll, 100);
+            };
+            // Android屏幕旋转
+            window.onresize = function() {
+                setTimeout(doScroll, 100);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="mylegend">loading……</div>
+    </body>
+</html>
