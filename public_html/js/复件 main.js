@@ -3,10 +3,10 @@ var words1="保利城商业街，风光无限好";
 var words2="独自格调生活，尽享其中";
 var words3="150米高楼，享受城市风景";
 var words4="华丽楼群，尽显大都市氛围";
-var words5="加把力，马上你要攀登到顶峰";
-var words6="恭喜攀登到顶峰";
+var words5="加把力，马上你要攀登到保利城顶峰";
+var words6="过关";
 //游戏主层，进度条显示层，背景层，障碍层
-var backLayer, loadingLayer, background, stageLayer,giftLayer,ruleLayer,startLayer,rankLayer;
+var backLayer, loadingLayer, background, stageLayer,giftLayer,ruleLayer,startLayer;
 var mBall;
 var stageSpeed = 0, hero, layers = 0, layersText, hpText;
 var floor_MOVE_STEP = 1;//floor左右移动速度
@@ -33,6 +33,7 @@ var imgData = new Array(
 {name: "stage3", path: "./images/stage3.jpg"},
 {name: "stage4", path: "./images/stage4.jpg"},
 {name: "stage5", path: "./images/stage5.jpg"},
+{name: "stage_top", path: "./images/stage_top.png"},
 {name: "ball1",path:"./images/ball1.png"},
 {name: "ball2",path:"./images/ball2.png"},
 {name: "ball3",path:"./images/ball3.png"},
@@ -45,8 +46,7 @@ var imgData = new Array(
 {name:"topword",path:"./images/topword.png"},
 {name:"index",path:"./images/index.jpg"},
 {name:"rule",path:"./images/rule.png"},
-{name:"start",path:"./images/start.png"},
-{name:"rank",path:"./images/rank.png"}
+{name:"start",path:"./images/start.png"}
 );
 
 function main() {
@@ -60,18 +60,12 @@ function main() {
     backLayer = new LSprite();
     ruleLayer = new LSprite();
     startLayer = new LSprite();
-    rankLayer = new LSprite();
     //增加背景层
     addChild(backLayer);
     //增加规则按钮
     addChild(ruleLayer);
     //增加开始按钮
     addChild(startLayer);
-    //增加排行按钮 
-    addChild(rankLayer);
-   var fps = new FPS();
- fps.y =460;
-  addChild(fps);
     //进度条读取层初始化
     loadingLayer = new LoadingSample2(50);
     backLayer.addChild(loadingLayer);
@@ -95,18 +89,13 @@ function gameInit(result) {
     var ruleimg = new LBitmapData(imglist["rule"]);
     var rulemap = new LBitmap(ruleimg);
     rulemap.x = 236;
-    rulemap.y = 418;
+    rulemap.y = 417;
     ruleLayer.addChild(rulemap);
     var startimg = new LBitmapData(imglist["start"]);
     var startmap = new LBitmap(startimg);
     startmap.x = 23;
     startmap.y = 418;
     startLayer.addChild(startmap);
-    var rankimg = new LBitmapData(imglist["rank"]);
-    var rankmap = new LBitmap(rankimg);
-    rankmap.x = 140;
-    rankmap.y = 418;
-    rankLayer.addChild(rankmap);
     //显示游戏标题
     var title = new LTextField();
     title.y = 100;
@@ -121,7 +110,6 @@ function gameInit(result) {
     txtClick.text = "点击页面开始游戏";
     txtClick.x = (LGlobal.width - txtClick.getWidth()) / 2;
     txtClick.y = 245;
-    
     //添加点击事件，点击画面则游戏开始
     startLayer.addEventListener(LMouseEvent.MOUSE_UP, function(event) {
         gameStart(false);
@@ -130,9 +118,6 @@ function gameInit(result) {
         if(ruleshowed==0){
             showGameRule();
         }
-    });
-    rankLayer.addEventListener(LMouseEvent.MOUSE_UP, function(event) {
-        window.location.href="http://play.suuci.com/order.do";
     });
     //按键激活游戏
     //LEvent.addEventListener(LGlobal.window,LKeyboardEvent.KEY_DOWN,onkeydown);
@@ -195,10 +180,10 @@ function gameStart(restart) {
     ruleLayer.removeAllChild();
     startLayer.die();
     startLayer.removeAllChild();
-    rankLayer.die();
-    rankLayer.removeAllChild();
     background = new Background();
     backLayer.addChild(background);
+
+
 
     stageInit();
 
@@ -483,7 +468,21 @@ function stageInit() {
 }
 function addStage() {
     var mstage;
-    mstage = new Floor01();
+    //var index = Math.random() * 6;
+    var index = 5;
+    if (index < 1) {
+        mstage = new Floor06();
+    } else if (index < 2) {
+        mstage = new Floor05();
+    } else if (index < 3) {
+        mstage = new Floor04();
+    } else if (index < 4) {
+        mstage = new Floor03();
+    } else if (index < 5) {
+        mstage = new Floor02();
+    } else if (index < 6) {
+        mstage = new Floor01();
+    }
     mstage.y = 0;
     mstage.x = Math.random() * 280;
     mstage.index = floor_number;
@@ -532,17 +531,10 @@ function collisionCheck(x1,y1,w1,h1,x2,y2,w2,h2){
     }
 }
 
-/*
-function submitscore(){
-    var totalscore = hero.giftscore+hero.score*100;
-    var username = usernametxt.text;
-    var usermobile = usermobiletxt.text;
-    alert("提交分数处理 达到楼层："+hero.score+" 总分："+totalscore+"姓名："+username+"电话："+usermobile);
-}
-*/
+
 
 function submitscore(){
-     var totalscore = hero.giftscore+hero.score*100;
+    var totalscore = hero.giftscore+parseInt(hero.score/6)*100;
     var username = usernametxt.text;
     var usermobile = usermobiletxt.text;
       /* alert("提交分数处理 总分"+totalscore+"姓名："+username+"电话："+usermobile);*/
@@ -550,7 +542,6 @@ function submitscore(){
 	document.getElementById('totalscore').value=totalscore;   //赋值给隐藏域字段
 	document.getElementById('username').value=username;   //赋值给隐藏域字段
 	document.getElementById('usermobile').value=usermobile;   //赋值给隐藏域字段
-	document.getElementById('floor').value=hero.score;   //赋值给隐藏域字段
 //alert(document.getElementById('mid').value);
 document.form1222.submit();                     //提交表单
 

@@ -67,11 +67,12 @@ function main() {
     addChild(ruleLayer);
     //增加开始按钮
     addChild(startLayer);
-    //增加排行按钮 
+    //增加排行按钮
     addChild(rankLayer);
-   var fps = new FPS();
- fps.y =460;
-  addChild(fps);
+    //FPS show
+//    var fps = new FPS();
+//    fps.y =460;
+//    addChild(fps);
     //进度条读取层初始化
     loadingLayer = new LoadingSample2(50);
     backLayer.addChild(loadingLayer);
@@ -95,7 +96,7 @@ function gameInit(result) {
     var ruleimg = new LBitmapData(imglist["rule"]);
     var rulemap = new LBitmap(ruleimg);
     rulemap.x = 236;
-    rulemap.y = 418;
+    rulemap.y = 417;
     ruleLayer.addChild(rulemap);
     var startimg = new LBitmapData(imglist["start"]);
     var startmap = new LBitmap(startimg);
@@ -195,10 +196,10 @@ function gameStart(restart) {
     ruleLayer.removeAllChild();
     startLayer.die();
     startLayer.removeAllChild();
-    rankLayer.die();
-    rankLayer.removeAllChild();
     background = new Background();
     backLayer.addChild(background);
+
+
 
     stageInit();
 
@@ -306,7 +307,7 @@ function onframe() {
         game_level = 0.7;
     }else if(hero.score>10){
         showView('第'+hero.score+'楼 '+words2);
-        game_level = 0.4;
+        game_level = 0.5;
     }else{
         showView('第'+hero.score+'楼 '+words1);
     }
@@ -441,25 +442,32 @@ function gameOver() {
     txt.size = 10;
     overLayer.addChild(txt);
     txt = new LTextField();
-    txt.text = "还可以分享朋友额外将获得1000积分";
+    txt.text = "还可以分享朋友额外将获得500积分";
     txt.x = 40;
     txt.y = 140;
     txt.size = 10;
     overLayer.addChild(txt);
     var button01 = new LButtonSample1("提交");
-    button01.x = 100;
+    button01.x = 50;
     button01.y = 160;
     button01.scaleY=0.8;
     button01.scaleX=0.8;
     button01.addEventListener(LMouseEvent.MOUSE_DOWN,submitscore);
     overLayer.addChild(button01);
     var button02 = new LButtonSample1("重来");
-    button02.x = 150;
+    button02.x = 130;
     button02.y = 160;
     button02.scaleY=0.8;
     button02.scaleX=0.8;
     button02.addEventListener(LMouseEvent.MOUSE_DOWN, tryagain);
     overLayer.addChild(button02);  
+    var button03 = new LButtonSample1("排名");
+    button03.x = 200;
+    button03.y = 160;
+    button03.scaleY=0.8;
+    button03.scaleX=0.8;
+    button03.addEventListener(LMouseEvent.MOUSE_DOWN, showrank);
+    overLayer.addChild(button03);  
 }
 function stageInit() {
     stageLayer = new LSprite();
@@ -532,14 +540,6 @@ function collisionCheck(x1,y1,w1,h1,x2,y2,w2,h2){
     }
 }
 
-/*
-function submitscore(){
-    var totalscore = hero.giftscore+hero.score*100;
-    var username = usernametxt.text;
-    var usermobile = usermobiletxt.text;
-    alert("提交分数处理 达到楼层："+hero.score+" 总分："+totalscore+"姓名："+username+"电话："+usermobile);
-}
-*/
 
 function submitscore(){
      var totalscore = hero.giftscore+hero.score*100;
@@ -561,6 +561,9 @@ function tryagain(){
 }
 
 
+function showrank(){
+    alert("跳转到排行榜");
+}
 
 
 

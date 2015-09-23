@@ -14,11 +14,11 @@ function Ball(){
 
 Ball.prototype.onframe = function (){
     var self = this;
-    self.y -= STAGE_STEP*0.2;
+    self.y -= STAGE_STEP*0.7;
     //到达顶部修改气球
     if(self.y<=-150){
         self.removeAllChild();
-        var index = parseInt(4*Math.random());
+        var index = parseInt(5*Math.random());
         switch(index){
             case 1:
               self.bitmap = new LBitmap(new LBitmapData(imglist["ball2"]));
@@ -28,6 +28,9 @@ Ball.prototype.onframe = function (){
               break;
             case 3:
               self.bitmap = new LBitmap(new LBitmapData(imglist["ball4"]));
+              break;
+			case 4:
+              self.bitmap = new LBitmap(new LBitmapData(imglist["ball5"]));
               break;
             default:
               self.bitmap = new LBitmap(new LBitmapData(imglist["ball1"]));
